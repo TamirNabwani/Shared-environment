@@ -375,7 +375,7 @@ export function TrainingLoad({ sessions, start: startProp }: { sessions: Session
           data={data}
           series={[
             { key: 'load', name: 'Daily load', type: 'bar', color: '#5f5e59' },
-            { key: 'acute', name: '7-day EWMA' },
+            { key: 'acute', name: '7-day EWMA', color: 'var(--series-1)' },
             { key: 'chronic', name: '28-day EWMA', color: 'var(--series-2)' },
           ]}
           unit="AU"
