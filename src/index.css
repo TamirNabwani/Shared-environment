@@ -1,0 +1,40 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+  --surface-0: #0f0f0e;
+  --surface-1: #1a1a19;
+  --surface-2: #262624;
+  --text-primary: #f0efec;
+  --text-secondary: #c3c2b7;
+  --text-muted: #8f8e86;
+  --grid: #34332f;
+  --series-1: #3987e5;
+  --series-2: #d95926;
+  --series-3: #199e70;
+  --series-4: #9085e9;
+  --good: #3fae5a;
+}
+
+body {
+  background: var(--surface-0);
+  color: var(--text-primary);
+  font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  -webkit-tap-highlight-color: transparent;
+}
+
+input, select, textarea {
+  background: var(--surface-2);
+  border: 1px solid #3a3936;
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.625rem;
+  color: var(--text-primary);
+  width: 100%;
+  font-size: 16px; /* prevents iOS zoom on focus */
+}
+input:focus, select:focus, textarea:focus { outline: 2px solid var(--series-1); outline-offset: 0; }
+
+.recharts-cartesian-grid line { stroke: var(--grid); }
+.recharts-text { fill: var(--text-muted); font-size: 11px; }
