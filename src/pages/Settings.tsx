@@ -21,10 +21,24 @@ export function Settings() {
   }
 
   async function download() {
+    const filename = `calisthenics-backup-${todayIso()}.json`;
+    // When hosted as a claude.ai artifact, downloads go through the viewer's save prompt.
+    const host = (window as { claude?: { use(name: string): Promise<unknown> } }).claude;
+    const downloads = host && ((await host.use('downloads')) as { save(r: { filename: string; data: string }): Promise<unknown> } | null);
+    if (downloads) {
+      try {
+        await downloads.save({ filename, data: await getJson() });
+        toast('Backup saved');
+      } catch (e) {
+        const code = (e as { code?: string }).code;
+        toast(code === 'declined' ? 'Download cancelled' : 'Download unavailable here: use Copy JSON');
+      }
+      return;
+    }
     const blob = new Blob([await getJson()], { type: 'application/json' });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
-    a.download = `calisthenics-backup-${todayIso()}.json`;
+    a.download = filename;
     a.click();
     URL.revokeObjectURL(a.href);
   }
