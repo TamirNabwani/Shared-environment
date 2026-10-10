@@ -19,7 +19,7 @@ import { PR_LABEL, setText } from '../lib/prText';
 import { TrendChart } from '../components/charts';
 import { ExerciseSelect } from '../components/ExerciseSelect';
 import { toast } from '../components/toast';
-import { Button, Card, Convention, Empty, Field, fmt, Formula, NumberInput, PRBadge, Segmented } from '../components/ui';
+import { Button, Card, ConfirmButton, Convention, Empty, Field, fmt, Formula, NumberInput, PRBadge, Segmented } from '../components/ui';
 
 export function Workouts() {
   const sessions = useSessions();
@@ -100,9 +100,7 @@ function SessionList({ sessions, onEdit }: { sessions: Session[]; onEdit: (s: Se
                 <Button kind="ghost" onClick={() => onEdit(s)}>
                   Edit
                 </Button>
-                <Button kind="danger" onClick={() => confirm('Delete this session?') && s.id != null && db.sessions.delete(s.id)}>
-                  Delete
-                </Button>
+                <ConfirmButton label="Delete" confirmLabel="Delete session?" onConfirm={() => s.id != null && db.sessions.delete(s.id)} />
               </div>
             </li>
           );

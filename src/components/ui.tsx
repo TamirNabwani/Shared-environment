@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import type { ReactNode } from 'react';
 
 export function Card({ title, children, right }: { title?: ReactNode; children: ReactNode; right?: ReactNode }) {
@@ -139,3 +140,30 @@ export function Segmented<T extends string>({
 
 export const fmt = (v: number | null | undefined, digits = 0) =>
   v == null || Number.isNaN(v) ? '—' : v.toLocaleString(undefined, { maximumFractionDigits: digits, minimumFractionDigits: digits });
+
+/**
+ * Two-tap destructive button: the first tap arms it, the second confirms.
+ * Used instead of window.confirm(), which some embedded browsers block.
+ */
+export function ConfirmButton({ label, confirmLabel = 'Tap again to confirm', onConfirm }: { label: string; confirmLabel?: string; onConfirm: () => void }) {
+  const [armed, setArmed] = useState(false);
+  useEffect(() => {
+    if (!armed) return;
+    const t = setTimeout(() => setArmed(false), 4000);
+    return () => clearTimeout(t);
+  }, [armed]);
+  return (
+    <Button
+      kind="danger"
+      className={armed ? 'ring-1 ring-red-400' : ''}
+      onClick={() => {
+        if (armed) {
+          setArmed(false);
+          onConfirm();
+        } else setArmed(true);
+      }}
+    >
+      {armed ? confirmLabel : label}
+    </Button>
+  );
+}

@@ -21,9 +21,9 @@ const TABS = [
 ] as const;
 type Tab = (typeof TABS)[number]['id'];
 
-// Route lives in the URL hash: #records or #records/pullups
+// Route lives in the URL hash: #records or #records.pullups ('.' keeps it a plain anchor)
 function readHash(): { tab: Tab; param?: string } {
-  const [tab, param] = location.hash.slice(1).split('/');
+  const [tab, param] = location.hash.slice(1).split('.');
   return { tab: TABS.some((t) => t.id === tab) ? (tab as Tab) : 'dashboard', param };
 }
 
@@ -37,7 +37,7 @@ export default function App() {
     window.addEventListener('hashchange', onHash);
     return () => window.removeEventListener('hashchange', onHash);
   }, []);
-  const go = (tab: Tab, param?: string) => (location.hash = param ? `${tab}/${param}` : tab);
+  const go = (tab: Tab, param?: string) => (location.hash = param ? `${tab}.${param}` : tab);
   const openRecords = (id: string) => go('records', id);
 
   return (

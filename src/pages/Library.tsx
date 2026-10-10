@@ -6,7 +6,7 @@ import { useExercises, usePerformances, useStatuses } from '../hooks';
 import { prHistory, prTypesFor, type Performance } from '../lib/analytics';
 import { shortDate } from '../lib/dates';
 import { PR_LABEL, prValueText } from '../lib/prText';
-import { Button, Card, Convention, Field, NumberInput, Segmented } from '../components/ui';
+import { Button, Card, ConfirmButton, Convention, Field, NumberInput, Segmented } from '../components/ui';
 
 const STATUS_OPTIONS: { value: Status | 'none'; label: string }[] = [
   { value: 'none', label: '–' },
@@ -100,9 +100,7 @@ function ExerciseList({
             />
             <PRSummary ex={e} perfs={perfs} onClick={() => openRecords(e.id)} />
             {e.custom && (
-              <Button kind="danger" onClick={() => confirm(`Delete custom exercise "${e.name}"? Logged sets stay but show as unknown.`) && db.customExercises.delete(e.id)}>
-                Delete
-              </Button>
+              <ConfirmButton label="Delete" confirmLabel="Delete? Logged sets will show as unknown" onConfirm={() => db.customExercises.delete(e.id)} />
             )}
           </div>
         </li>
